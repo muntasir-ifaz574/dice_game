@@ -1,6 +1,13 @@
 import 'package:dice_game/dice.dart';
 import 'package:flutter/material.dart';
 
+TextStyle textStyle = TextStyle(
+  color: Color(0xFFF5F2EC),
+  fontWeight: FontWeight.bold,
+  fontSize: 18,
+);
+Color text = Colors.black;
+
 class knocKoutGame extends StatefulWidget {
   const knocKoutGame({Key? key}) : super(key: key);
 
@@ -29,6 +36,11 @@ class _knocKoutGameState extends State<knocKoutGame> {
           child: Text(
             notification,
             textAlign: TextAlign.center,
+            style: TextStyle(
+              color: text,
+              fontSize: 20,
+              fontWeight: FontWeight.w600,
+            ),
           ),
         );
       },
@@ -45,19 +57,51 @@ class _knocKoutGameState extends State<knocKoutGame> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Color(0xFF1E94C7),
       appBar: AppBar(
+        backgroundColor: Color(0xFF78EBA),
+        centerTitle: true,
         title: Text(
           "Knock Out Game",
         ),
       ),
       body: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              SizedBox(
+                height: MediaQuery.of(context).size.height / 3,
+                width: MediaQuery.of(context).size.width / 2.5,
+                child: dice1,
+              ),
+              SizedBox(
+                height: MediaQuery.of(context).size.height / 3,
+                width: MediaQuery.of(context).size.width / 2.5,
+                child: dice2,
+              ),
+            ],
+          ),
           SizedBox(
             width: double.infinity,
             child: Text(
               _turn,
               textAlign: TextAlign.center,
             ),
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              Text(
+                "Player",
+                style: textStyle,
+              ),
+              Text(
+                "Machine",
+                style: textStyle,
+              ),
+            ],
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -79,36 +123,21 @@ class _knocKoutGameState extends State<knocKoutGame> {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-              SizedBox(
-                height: MediaQuery.of(context).size.height / 3,
-                width: MediaQuery.of(context).size.width / 2.5,
-                child: dice1,
+              Text(
+                "$_palyerScore",
+                style: textStyle,
               ),
-              SizedBox(
-                height: MediaQuery.of(context).size.height / 3,
-                width: MediaQuery.of(context).size.width / 2.5,
-                child: dice2,
+              Text(
+                "$_machineScore",
+                style: textStyle,
               ),
-            ],
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              Text("Player"),
-              Text("Machine"),
-            ],
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              Text("$_palyerScore"),
-              Text("$_machineScore"),
             ],
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
               MaterialButton(
+                color: Color(0xFF71B8F5),
                 onPressed: _running
                     ? null
                     : () async {
@@ -121,7 +150,7 @@ class _knocKoutGameState extends State<knocKoutGame> {
                         double playerResult =
                             await dice1!.play() + await dice2!.play();
                         setState(() {
-                          _recentPlsc = "Recent Player Score: $playerResult";
+                          _recentPlsc = "Recent : $playerResult";
                         });
                         if (playerResult == 7) playerResult = 0;
                         await Future.delayed(
@@ -135,7 +164,7 @@ class _knocKoutGameState extends State<knocKoutGame> {
                         double mnResult =
                             await dice1!.play() + await dice2!.play();
                         setState(() {
-                          _recentMachinesc = "Recent Machine Score: $mnResult";
+                          _recentMachinesc = "Recent : $mnResult";
                         });
                         if (mnResult == 7) mnResult = 0;
                         setState(() {
@@ -167,16 +196,23 @@ class _knocKoutGameState extends State<knocKoutGame> {
                           _running = false;
                         });
                       },
-                child: Text("Play"),
+                child: Text(
+                  "Play",
+                  style: textStyle,
+                ),
               ),
               MaterialButton(
+                color: Color(0xFF71B8F5),
                 onPressed: () {
                   setState(() {
                     _machineScore = 0;
                     _palyerScore = 0;
                   });
                 },
-                child: Text("Restart"),
+                child: Text(
+                  "Restart",
+                  style: textStyle,
+                ),
               ),
             ],
           ),
